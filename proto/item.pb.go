@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.27.1
 // 	protoc        v3.19.1
-// source: proto.proto
+// source: item.proto
 
 package grpc_item
 

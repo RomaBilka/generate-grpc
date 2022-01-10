@@ -241,5 +241,5 @@ var CRUD_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto.proto",
+	Metadata: "item.proto",
 }
