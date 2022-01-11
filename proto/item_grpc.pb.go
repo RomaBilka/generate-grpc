@@ -19,9 +19,9 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CRUDClient interface {
 	GetItem(ctx context.Context, in *ItemId, opts ...grpc.CallOption) (*Item, error)
-	DelteItem(ctx context.Context, in *ItemId, opts ...grpc.CallOption) (*ItemId, error)
-	CreateItem(ctx context.Context, in *Item, opts ...grpc.CallOption) (*Item, error)
-	UpdateItem(ctx context.Context, in *Item, opts ...grpc.CallOption) (*Item, error)
+	DeleteItem(ctx context.Context, in *ItemId, opts ...grpc.CallOption) (*ItemId, error)
+	CreateItem(ctx context.Context, in *Item, opts ...grpc.CallOption) (*ItemId, error)
+	UpdateItem(ctx context.Context, in *Item, opts ...grpc.CallOption) (*ItemId, error)
 	GetItems(ctx context.Context, in *Void, opts ...grpc.CallOption) (*Items, error)
 }
 
@@ -42,17 +42,17 @@ func (c *cRUDClient) GetItem(ctx context.Context, in *ItemId, opts ...grpc.CallO
 	return out, nil
 }
 
-func (c *cRUDClient) DelteItem(ctx context.Context, in *ItemId, opts ...grpc.CallOption) (*ItemId, error) {
+func (c *cRUDClient) DeleteItem(ctx context.Context, in *ItemId, opts ...grpc.CallOption) (*ItemId, error) {
 	out := new(ItemId)
-	err := c.cc.Invoke(ctx, "/CRUD/DelteItem", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/CRUD/DeleteItem", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *cRUDClient) CreateItem(ctx context.Context, in *Item, opts ...grpc.CallOption) (*Item, error) {
-	out := new(Item)
+func (c *cRUDClient) CreateItem(ctx context.Context, in *Item, opts ...grpc.CallOption) (*ItemId, error) {
+	out := new(ItemId)
 	err := c.cc.Invoke(ctx, "/CRUD/CreateItem", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -60,8 +60,8 @@ func (c *cRUDClient) CreateItem(ctx context.Context, in *Item, opts ...grpc.Call
 	return out, nil
 }
 
-func (c *cRUDClient) UpdateItem(ctx context.Context, in *Item, opts ...grpc.CallOption) (*Item, error) {
-	out := new(Item)
+func (c *cRUDClient) UpdateItem(ctx context.Context, in *Item, opts ...grpc.CallOption) (*ItemId, error) {
+	out := new(ItemId)
 	err := c.cc.Invoke(ctx, "/CRUD/UpdateItem", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -83,9 +83,9 @@ func (c *cRUDClient) GetItems(ctx context.Context, in *Void, opts ...grpc.CallOp
 // for forward compatibility
 type CRUDServer interface {
 	GetItem(context.Context, *ItemId) (*Item, error)
-	DelteItem(context.Context, *ItemId) (*ItemId, error)
-	CreateItem(context.Context, *Item) (*Item, error)
-	UpdateItem(context.Context, *Item) (*Item, error)
+	DeleteItem(context.Context, *ItemId) (*ItemId, error)
+	CreateItem(context.Context, *Item) (*ItemId, error)
+	UpdateItem(context.Context, *Item) (*ItemId, error)
 	GetItems(context.Context, *Void) (*Items, error)
 	mustEmbedUnimplementedCRUDServer()
 }
@@ -97,13 +97,13 @@ type UnimplementedCRUDServer struct {
 func (UnimplementedCRUDServer) GetItem(context.Context, *ItemId) (*Item, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetItem not implemented")
 }
-func (UnimplementedCRUDServer) DelteItem(context.Context, *ItemId) (*ItemId, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DelteItem not implemented")
+func (UnimplementedCRUDServer) DeleteItem(context.Context, *ItemId) (*ItemId, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteItem not implemented")
 }
-func (UnimplementedCRUDServer) CreateItem(context.Context, *Item) (*Item, error) {
+func (UnimplementedCRUDServer) CreateItem(context.Context, *Item) (*ItemId, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateItem not implemented")
 }
-func (UnimplementedCRUDServer) UpdateItem(context.Context, *Item) (*Item, error) {
+func (UnimplementedCRUDServer) UpdateItem(context.Context, *Item) (*ItemId, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateItem not implemented")
 }
 func (UnimplementedCRUDServer) GetItems(context.Context, *Void) (*Items, error) {
@@ -140,20 +140,20 @@ func _CRUD_GetItem_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CRUD_DelteItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _CRUD_DeleteItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ItemId)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CRUDServer).DelteItem(ctx, in)
+		return srv.(CRUDServer).DeleteItem(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/CRUD/DelteItem",
+		FullMethod: "/CRUD/DeleteItem",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CRUDServer).DelteItem(ctx, req.(*ItemId))
+		return srv.(CRUDServer).DeleteItem(ctx, req.(*ItemId))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -224,8 +224,8 @@ var CRUD_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _CRUD_GetItem_Handler,
 		},
 		{
-			MethodName: "DelteItem",
-			Handler:    _CRUD_DelteItem_Handler,
+			MethodName: "DeleteItem",
+			Handler:    _CRUD_DeleteItem_Handler,
 		},
 		{
 			MethodName: "CreateItem",

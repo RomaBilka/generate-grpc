@@ -4,9 +4,9 @@ option go_package = "github.com/RomaBiliak/generate-grpc;grpc_item";
 
 service CRUD {
   rpc GetItem (ItemId) returns (Item) {}
-  rpc DelteItem (ItemId) returns (ItemId) {}
-  rpc CreateItem (Item) returns (Item) {}
-  rpc UpdateItem (Item) returns (Item) {}
+  rpc DeleteItem (ItemId) returns (ItemId) {}
+  rpc CreateItem (Item) returns (ItemId) {}
+  rpc UpdateItem (Item) returns (ItemId) {}
 
   rpc GetItems (Void) returns (Items) {}
 }
