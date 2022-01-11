@@ -2,7 +2,6 @@ package services
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/RomaBiliak/generate-grpc/database/dbs"
 	grpc_item "github.com/RomaBiliak/generate-grpc/proto"
@@ -39,6 +38,7 @@ func (i *itemService) GetItem(ctx context.Context, id *grpc_item.ItemId) (*grpc_
 	if err != nil {
 		return &grpc_item.Item{}, err
 	}
+
 	return &grpc_item.Item{Id: item.ID, Name: item.Name, Value: item.Value}, nil
 }
 
@@ -47,6 +47,7 @@ func (i *itemService) DeleteItem(ctx context.Context, id *grpc_item.ItemId) (*gr
 	if err != nil {
 		return &grpc_item.ItemId{}, err
 	}
+
 	return id, nil
 }
 
@@ -55,6 +56,7 @@ func (i *itemService) CreateItem(ctx context.Context, item *grpc_item.Item) (*gr
 	if err != nil {
 		return &grpc_item.ItemId{}, err
 	}
+
 	return &grpc_item.ItemId{Id: id}, nil
 }
 
@@ -63,6 +65,7 @@ func (i *itemService) UpdateItem(ctx context.Context, item *grpc_item.Item) (*gr
 	if err != nil {
 		return &grpc_item.ItemId{}, err
 	}
+
 	return &grpc_item.ItemId{Id: item.Id}, nil
 }
 
@@ -76,6 +79,6 @@ func (i *itemService) GetItems(ctx context.Context, v *grpc_item.Void) (*grpc_it
 	for i, item := range items {
 		itemsResponse[i] = &grpc_item.Item{Id: item.ID, Name: item.Name, Value: item.Value}
 	}
-	fmt.Println(itemsResponse)
+
 	return &grpc_item.Items{Aliases: itemsResponse}, nil
 }
