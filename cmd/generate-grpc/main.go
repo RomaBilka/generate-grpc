@@ -17,7 +17,6 @@ import (
 )
 
 func main() {
-
 	godotenv.Load()
 
 	pgUser, ok := os.LookupEnv("PG_USER")
@@ -63,5 +62,4 @@ func main() {
 	if err:= server.Serve(l); err != nil{
 		log.Fatal(err)
 	}
-
 }

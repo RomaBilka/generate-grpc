@@ -1,9 +1,8 @@
-syntax="proto3";
+syntax = "proto3";
 
 option go_package = "github.com/RomaBiliak/generate-grpc;grpc_item";
 
 service CRUD {
-
   rpc GetItem (ItemId) returns (Item) {}
   rpc DelteItem (ItemId) returns (ItemId) {}
   rpc CreateItem (Item) returns (Item) {}
@@ -15,15 +14,15 @@ service CRUD {
 message Void {}
 
 message ItemId{
-    int32 Id=1;
+  int32 Id = 1;
 }
 
 message Item {
-    int32 Id=1;
-    string namie=2;
-    string value=3;
+  int32 Id = 1;
+  string name = 2;
+  string value = 3;
 }
 
 message Items {
-    repeated Item aliases = 1;
+  repeated Item aliases = 1;
 }
